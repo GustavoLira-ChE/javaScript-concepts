@@ -53,3 +53,30 @@ En la sobreescritura nos debemos fijar en que la estructura del método sea igua
     Permite declara métodos con el mismo nombre que usen diferentes parámetros, al llamar al método lo que define cual de todos se usará son los parámetros pasados.
 - ¿Qué es Sobreescritura?
     La sobre escritura es la modificación de los métodos heredados de la clase padre para agregar una mayor funcionalidad el método de la clase hijo.
+
+
+# Cohesión
+ La cohesión nos indica el grado de relación existente entre los distintos elementos de una clase. Una clase tendrá una cohesión alta cuando todos sus métodos estén relacionados entre si, mediante llamadas entre clases o mediante el uso de variables cuyo ámbito se encuentre a nivel de clase.
+ > A mayor cohesión mejor
+ ## Beneficios de alta cohesión
+ - facilita el mantenimiento de código
+ - Mejora la lectura del código
+
+# Acoplamiento 
+El acoplamiento hace referencia al nivel de dependencia de una clase con respecto a elementos externos
+ > A menor acoplamiento mejor
+ ## Beneficios de un bajo acoplamiento
+ - Facilidad de reutilizar código.
+ - Facilita el mantenimiento
+ - Mayor entendimiento del código.
+
+## Beneficios de una alta cohesión y un bajo acoplamiento
+- Mejorar el encapsulamiento
+- Cumplir principios de SOLID o KISS
+
+- ¿A qué se refiere el principio de la Cohesión?
+    dentro de una clase sus métodos y atributos esten muy relacionados y que la clase tenga una sola funcionalidad y que esta funcionalidad la la logré realizar muy bien.
+- ¿A qué se refiere el principio del Acoplamiento?
+    El acomplamiento es el nivel de depencia de una clase a componentes externos, buscando que la clase tenga poca interacción con componentes o clases externas
+- ¿Cuál es el equilibro que se busca en el buen diseño de clases respecto a la Cohesión y el Acoplamiento y por que?
+    Que una clase tenga una alta cohesión y un bajo acoplamiento, lo que generaria código fácil de entender, fácil de mantener, mejora el encapsulamiento de la clase.
