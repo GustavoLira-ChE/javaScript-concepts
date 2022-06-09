@@ -52,4 +52,4 @@ En la sobreescritura nos debemos fijar en que la estructura del método sea igua
 - ¿Qué es Sobrecarga?
     Permite declara métodos con el mismo nombre que usen diferentes parámetros, al llamar al método lo que define cual de todos se usará son los parámetros pasados.
 - ¿Qué es Sobreescritura?
-    La sobre escritura es la modificación de los métodos heredados de la clase padre.
+    La sobre escritura es la modificación de los métodos heredados de la clase padre para agregar una mayor funcionalidad el método de la clase hijo.
