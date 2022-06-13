@@ -1,3 +1,5 @@
+// Esto es una forma en la que se puede usar la destructuración para para un argumento objeto a la clase
+
 class Device {
     constructor(params = {}) {
         ({
@@ -7,6 +9,7 @@ class Device {
         } = params);
     }
 
+    //Método
     start() {
         this._status = 'on';
     }
@@ -50,7 +53,7 @@ const parameters = {
 let d1 = new Device(parameters);
 
 console.log(d1.status); // "off"
-console.log(d1.brand()); // "off"
+console.log(d1.brand); // "off"
 
 let player = new VideoDevice({ brand: 'Videodrome' });
 player.brand; // "Videodrome"
