@@ -170,7 +170,82 @@ console.log(arr); // [2, 4, 6]
 Una expresión de función flecha, tiene una sintaxis más corta en comparación con las expresiones de función y no tienen su propio `this`, `arguments`, `super` o `new.target`. Las funciones fleja siempre son anónimas.
 Dos factores imfluyeron en la introducción de las funciones flecha: funciones más cortas y no vinculantes de `this`.
 
+## Immediately-Invoked Function Expression
 
+Un patrón común en JS es ejecutar una función tan pronto como sea declarada:
+```JavaScript
+(function(){
+    console.log("Hola mundo");
+})()
+```
+Esta es una función anónima
+La función no tienen nombre y no está guardada en ninguna variable, tiene dos parentesis al final de la función causando que sea ejecutada inmediatamente.
+Las IIFE pueden ser usadas para bloquear datos, las variables declaradas dentro de una función IIFE no pueden ser usadas afuera.
+
+# Understand `this` 
+`this` keyword es usado como una abreviatura, una referencia, se refiere a un objeto, que es el sujeto en el contexto.
+```JavaScript
+var person = {
+    firstName: "Penelope",
+    lastName: "Barrymore",
+    fullName: function () {
+        ​// Notice we use "this" just as we used "he" in the example sentence earlier?:
+        console.log(this.firstName + " " + this.lastName);
+    ​// We could have also written this:​
+        console.log(person.firstName + " " + person.lastName);
+    }
+}
+```
+El uso de `this` hace el código menos ambiguo, así como se usan los pronombres para referirse a una persona para hacer las oraciones más claras.
+## JavaScript's `this` keyword Basics
+Primero conocer que todas las funciones en JS tienen propiedades, justo como los objetos tienen propiedades. Y cuando una función se ejecuta, esta obtienen la propiedad `this`.
+> **Nota**: Cuando usamos el modo estricto, `this` mantiene el valor `undefined` en funciones globales y en funciones anonimas que no están enlazadas a algún objeto.
+`this` es usado dentro de una función y contiene el valor del objeto que invocó la función.
+
+## El mayor logró con `this` keyword en JS
+`this` no está asignado a un valor hasta que un objeto invoca la función donde `this` está definido.
+## El uso de `this` en un ámbito global
+Cuando el coódigo es ejecutado por el navegador, todas las variables globales y funciones, son definidas en el _window **object**_. Por lo tanto, cuando usamos `this` en una función global, este refiere a el objeto global _window_
+## Cuando `this` es más incomprendido y se vuelve complicado
+`this` es más incomprendido
+- cuando compartimos un método que usa `this`
+- cuando asignamos un método que usa `this` en una variable
+- Cuando una función que usa `this` is pasada como un callback
+- cuando `this` es usado dentro de un _closure_ (cierre)
+### Arreglar `this` usado como un en un método pasado como una callback
+Cuando ejecutamos un método en algun otro objeto diferente al objeto que inicialmente fue definido, `this` referirá al objeto que invocó el metodo donde `this` fue definido.
+Para arreglar esto se puede usar el método _bind_
+```JavaScript
+otroObj.metodoOtroObj(objeto.metodo.bind(objeto))
+```
+### Arreglando `this` dentro de closure
+Es importante tomar nota que los closure no pueden acceder a la variable `this` de la función contenedora usando la palabra `this` porque la variable `this` es accesible únicamente por la función en si misma, no por la función anidada.
+`this` de una función anidada anónima no puede accedar al `this` de la función contenedora, asi que es enlazada el objeto global _window_, cuando el modo estricto no es usado.
+Para arreglar esto, podemos asignar el valor de this a otra variable antes de entrar al método anónimo.
+### Arreglar `this` cuando le método es asignado a una variable.
+Al asignar un método a una variable, el `this` de ese método apuntará algúna variable que haga referencia al nombre que tienen `this` globalmente.
+Podemos arreglar esto manteniendo `this` cuando el método es asignado a una variable usando el método `bind`
+### Arreglar `this` cuando comparte métodos
+Prestar métodos es una práctica común en el desarrollo con JS, al prestar un método de un objeto a otro `this` hará referencia al objeto en el cuál fue definido, por lo tanto, para arreglar esto es necesario usar el método `apply()`.
+
+### JavaScript's Apply, call and Bind methods
+`bind()` permite asignar facilmente cual objeto específico será enlazado a `this` cuando una función o método es invocado.
+La necesidad de `bind` usualmente ocurre cuando se usa `this` en un método y se llama llama ese método desde otro método que recibe.
+Bind permite compartir métodos, así como permite usar la aplicación de funciones parciales (function currying).
+
+Los métodos `apply()` y `call()` son dos de los más usados in JS, permiten compartir funciones y configurar el valor de `this`en funciones invocadas. Además, el método `apply()` en particular permite ejecutar funciones con un arreglo de parámetros, tal que cada parámetro es pasado a la función individualmente cuando la función es ejecutada.
+
+## Currying functions
+_Currying_ es la forma de construir funciones que permitan aplicaciones parciales de los argumentos de una función. Lo que esto significa es que se puede pasar todos los argumentos que una función espera y tener un resultado, o pasar unos cuantos de los argumentos y tener una función como respuesta que esperará por el resto de los argumentos.
+### Nuestro primer curry
+```JavaScript
+var greetCurried = function(greeting) {
+  return function(name) {
+    console.log(greeting + ", " + name);
+  };
+};
+```
+Este simple ajuste en la manera de escribir una función permite crear una nueva función para cuarlquier tipo de "saludo", y pasar a esa nueva función el nombre de la persona que queremos saludar.
 
 # Evaluación 
 - Di 3 formas para que una función se llame a sí misma.
@@ -179,16 +254,57 @@ Dos factores imfluyeron en la introducción de las funciones flecha: funciones m
 > 3. Una variable dentro del ámbito que se refiera a la función
 
 - ¿Qué es una closure? ¿Para qué sirve? 
-Es una función que fue definida dentro de otra y que tienen acceso a todas las variables y funciones que fueron definidas en la función que encapsula.
+> Es una función que fue definida dentro de otra y que tienen acceso a todas las variables y funciones que fueron definidas en la función que encapsula.
+Un closure permite asociar algunos datos con una función que opera sobre esos datos. También se pueden emular métodos privados con closures
 
-- ¿Cómo se crea una función con un número de parámetros variable? 
-- ¿Qué es una arrow function? 
+- ¿Cómo se crea una función con un número de parámetros variable?
+> usando `arguments` se pueden pasar varios parámetros extras a una función y manejarlos pues cada parámetro extra tiene su propio índice.
+
+> usando el parámetro rest se puede hacer esto, queda definido de la siguiente manera:
+```JavaScript
+function myFunc(ar1, ...agrs){
+    console.log(ar1)
+    for(let i = 0; i < agrs.length; i++){
+        console.log(args[i])
+    }
+}
+```
+
+- ¿Qué es una arrow function?
+> Una función de flecha es una alternativa compacta a la tradicional funcion expresada, pero es limitada y no puede ser usada en todas las situaciones:
+
+>    1. No cuentan con su propio `this`, `arguments`, `super` enlazado y no deberian ser usadas como métodos.
+
+>    2. No tienen acceso a la keyword `new.target`.
+
+>    3. No están adecuadas para los métodos `call`, `apply`, y `bind`.
+
+>    4. No pueden ser usadas como `constructors`.
+
+>    5. No pueden usar `yield`, dentro de su cuerpo.
+
+
 - ¿Qué son los “rest parameters”? 
-- ¿Qué es una IIFE? ¿Qué utilidades tiene?  
+> La sintaxis de parámetros rest permite a una función aceptar un número indefinido de argumentos como un array.
+```JavaScript
+function f(a, b, ...theArgs) {
+  // ...
+}
+```
+- ¿Qué es una IIFE? ¿Qué utilidades tiene? 
+> Es un patrón de JS para ejecutar una función tan pronto como es declarada, sirve para protejer los datos, reducir el alcancé de la busqueda, era la manera de conseguir emular el encapsulamiento antes ES2015
+
 - Asumiendo que estamos en “strict mode” ¿A qué apunta this en los siguientes casos? 
-1. En el ámbito global de un navegador 
-2. En un método definido dentro de un objeto 
-3. En una función definida en el ámbito global 
-4. Dentro de este listener hecho con la librería jQuery: $( ‘ but t on. j scl i ck’ ). on(‘ cl i ck’ , f unct i on(event ) { }); 
-- ¿Podemos alterar el this de una función antes de llamarla? Si es así… ¿cómo? 
+1. En el ámbito global de un navegador
+> Undefined
+2. En un método definido dentro de un objeto
+>  Al objeto 
+3. En una función definida en el ámbito global
+> Al objeto global _window_ 
+4. Dentro de este listener hecho con la librería jQuery: $(‘button.jsclick’).on(‘click’,function(event){ }); 
+> undefined
+- ¿Podemos alterar el this de una función antes de llamarla? Si es así… ¿cómo?
+> Sí, usando los métodos bind, apply o call se pueden hacer modificaciones a la referencia de `this`
+
 - ¿Qué es el currying? ¿Sirve solo para presumir o tiene alguna utilidad?
+> es la transformación de una función que hace que `f(a,b,c)` se puede llamar como `f(a)(b)(c)`. JS implementa usualmente ambos llama la función como normalmente y retorna una función parcial si el número de argumentos pasados no es suficiente. Es usado en programación funcional para crear una función de orden mayor.
